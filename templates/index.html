@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management</title>
+</head>
+<body>
+    <h1>Pagina de Management</h1>
+    <form method="POST">
+        <label for="section">Secțiunea:</label>
+        <select name="section" id="section" required>
+            <option value="ATI">ATI</option>
+            <option value="AC">AC</option>
+            <option value="LOG">LOG</option>
+            <option value="CMD">CMD</option>
+        </select>
+        <label for="name">Nume:</label>
+        <input type="text" name="name" id="name" required>
+        <button type="submit">Adaugă</button>
+    </form>
+
+    <h2>Link-uri existente:</h2>
+    <ul>
+        {% for section, items in data.items() %}
+            <li>
+                <strong>{{ section }}</strong>
+                <ul>
+                    {% for item in items %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

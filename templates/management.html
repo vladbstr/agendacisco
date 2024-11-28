@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management AGENDA</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('{{ url_for('static', filename='bg.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+    </style>
+<body>
+    <div class="management-header">
+        <h1>Management AGENDA</h1>
+        <div class="user-menu">
+            <button class="user-icon" onclick="toggleDropdown()">
+                <img src="/static/user.png" alt="User Icon">
+            </button>
+            <div id="dropdown-menu" class="dropdown-content">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <p><strong>Path:</strong> {{ breadcrumb }}</p>
+    <div style="position: fixed; top: 10px; right: 10px;">
+        <button style="background-color: red; color: white; font-size: 16px; padding: 10px 20px; border: none; cursor: pointer;" onclick="confirmReorganize()">
+            Reorganize JSON
+        </button>
+    </div>
+
+    
+    <!-- Add Section -->
+    <h2>Add Section</h2>
+    <form id="add-section-form" onsubmit="addSection(event)">
+        <input type="text" id="section-name" placeholder="Section Name" required>
+        <button type="submit">Add Section</button>
+    </form>
+
+    <!-- Add User -->
+    <h2>Add User</h2>
+    <form id="add-user-form" onsubmit="addUser(event)">
+        <input type="text" id="user-name" placeholder="User Name" required>
+        <input type="text" id="user-number" placeholder="Phone Number" required>
+        <button type="submit">Add User</button>
+    </form>
+
+
+    <!-- Drag and Drop for Sub-sections -->
+    <h2>Sections</h2>
+    <ul id="sub-sections" class="sortable">
+        {% for name, section in sub_sections.items() %}
+            <li class="draggable" data-name="{{ name | safe }}" draggable="true">
+                <a href="/management/{{ path + '/' + name if path else name }}" class="link">
+                    {{ name }}
+                </a>
+                
+                <button onclick="deleteSection('{{ name }}')">Delete</button>
+            <button onclick="modifySection('{{ name }}')">Modify</button>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <!-- Users -->
+    <h2>Users in {{ path.split('/')[-1] if path else 'Home' }}</h2>
+    <ul id="users" class="sortable">
+        {% for username, details in users.items() %}
+            <li class="draggable" data-name="{{ username }}" draggable="true">
+                {{ username }} - {{ details['numar'] }}
+                <button onclick="deleteUser('{{ username }}')">Delete</button>
+            <button onclick="modifyUser('{{ username }}', '{{ details[numar] }}')">Modify</button>
+            </li>
+            
+        {% endfor %}
+    </ul>
+    
+
+    
+    <!-- Update Button -->
+    <button id="update-btn" onclick="sendUpdate()">Update</button>
+
+    <script>
+        // Drag and drop functionality
+        const draggables = document.querySelectorAll('.draggable');
+        const containers = document.querySelectorAll('.sortable');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+            });
+        });
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const dragging = document.querySelector('.dragging');
+                if (afterElement == null) {
+                    container.appendChild(dragging);
+                } else {
+                    container.insertBefore(dragging, afterElement);
+                }
+            });
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Send updated order to the server
+        async function sendUpdate() {
+    const sections = Array.from(document.querySelectorAll('#sub-sections .draggable'))
+        .map(item => item.dataset.name.trim());
+    const users = Array.from(document.querySelectorAll('#users .draggable'))
+        .map(item => item.dataset.name.trim());
+
+    const data = { sections, users, path: "{{ path or '' }}" }; // Ensure path is never undefined
+
+    console.log("Sending update data:", data); // Debugging: Verify the data being sent
+
+    try {
+        const response = await fetch('/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (result.message) {
+            alert(result.message);
+            location.reload(); // Refresh the page to reflect updated order
+        } else {
+            console.error("Error from server:", result);
+            alert(result.error || "An error occurred");
+        }
+    } catch (error) {
+        console.error('Error updating:', error);
+    }
+}
+
+
+async function addSection(event) {
+            event.preventDefault();
+            const sectionName = document.getElementById('section-name').value;
+
+            try {
+                const response = await fetch('/add-section', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ section_name: sectionName, path: "{{ path }}" }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                location.reload(); // Refresh the page to show the new section
+            } catch (error) {
+                console.error('Error adding section:', error);
+            }
+        }
+
+        async function addUser(event) {
+            event.preventDefault();
+            const userName = document.getElementById('user-name').value;
+            const userNumber = document.getElementById('user-number').value;
+
+            try {
+                const response = await fetch('/add-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_name: userName, user_number: userNumber, path: "{{ path }}" }),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                location.reload(); // Refresh the page to show the new user
+            } catch (error) {
+                console.error('Error adding user:', error);
+            }
+        }
+
+        function confirmReorganize() {
+        const confirmAction = confirm("Are you sure you want to reorganize the JSON based on indexes? Make sure you have a backup!");
+        if (confirmAction) {
+            reorganizeJSON();
+        }
+    }
+
+    async function reorganizeJSON() {
+        try {
+            const response = await fetch('/reorganize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            location.reload(); // Refresh the page to reflect the changes
+        } catch (error) {
+            console.error('Error reorganizing JSON:', error);
+        }
+    }
+
+    async function deleteSection(sectionName) {
+    const confirmDelete = confirm(`Are you sure you want to delete the section "${sectionName}"?`);
+    if (!confirmDelete) return;
+
+    try {
+        const response = await fetch('/delete-section', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ section_name: sectionName, path: "{{ path }}" }),
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        location.reload(); // Refresh to update the view
+    } catch (error) {
+        console.error('Error deleting section:', error);
+    }
+}
+
+async function modifySection(sectionName) {
+    const newName = prompt(`Enter a new name for the section "${sectionName}":`, sectionName);
+    if (!newName || newName === sectionName) return;
+
+    try {
+        const response = await fetch('/modify-section', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ old_name: sectionName, new_name: newName, path: "{{ path }}" }),
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        location.reload(); // Refresh to update the view
+    } catch (error) {
+        console.error('Error modifying section:', error);
+    }
+}
+
+async function deleteUser(userName) {
+    const confirmDelete = confirm(`Are you sure you want to delete the user "${userName}"?`);
+    if (!confirmDelete) return;
+
+    try {
+        const response = await fetch('/delete-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_name: userName, path: "{{ path }}" }),
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        location.reload(); // Refresh to update the view
+    } catch (error) {
+        console.error('Error deleting user:', error);
+    }
+}
+
+async function modifyUser(userName, currentNumber) {
+    const newName = prompt(`Enter a new name for the user "${userName}":`, userName);
+    const newNumber = prompt(`Enter a new number for the user "${userName}":`, currentNumber);
+    if (!newName || !newNumber || (newName === userName && newNumber === currentNumber)) return;
+
+    try {
+        const response = await fetch('/modify-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ old_name: userName, new_name: newName, new_number: newNumber, path: "{{ path }}" }),
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        location.reload(); // Refresh to update the view
+    } catch (error) {
+        console.error('Error modifying user:', error);
+    }
+}
+
+function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+
+        window.onclick = function(event) {
+            const dropdown = document.getElementById("dropdown-menu");
+            if (!event.target.matches('.user-icon') && dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+    "ATI": {
+        "OFICIUL 1": {
+            "Sectia 1": {
+                "index": 1,
+                "Utilizatori": {
+                    "buhuuhu": {
+                        "numar": "222",
+                        "index": 3
+                    },
+                    "das": {
+                        "numar": "dasda",
+                        "index": 2
+                    },
+                    "dasd": {
+                        "numar": "dasdas",
+                        "index": 4
+                    },
+                    "uiuuuuuuu": {
+                        "numar": "dsad",
+                        "index": 1
+                    }
+                }
+            },
+            "index": 1,
+            "dasd": {
+                "index": 5,
+                "Utilizatori": {
+                    "un_cacacat": {
+                        "numar": "112",
+                        "index": 1
+                    }
+                }
+            },
+            "Sectia 6": {
+                "index": 6
+            }
+        },
+        "veve2": {
+            "index": 2,
+            "SEC 4": {
+                "index": 1
+            },
+            "Sec 5": {
+                "index": 2
+            }
+        },
+        "index": 1
+    },
+    "AAC": {
+        "index": 2,
+        "Utilizatori": {}
+    }
+}
