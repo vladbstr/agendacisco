@@ -287,6 +287,9 @@ def modify_user():
     else:
         return jsonify({"error": "User not found"}), 404
 
+@app.route('/')
+def returnindex():
+    return redirect(url_for('management'))
 
 
 @app.route('/data', methods=['GET'])
