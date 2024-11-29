@@ -4,6 +4,7 @@ from werkzeug.security import check_password_hash
 from functools import wraps
 import urllib
 ########
+#modificare bistri
 ##Modificare Vlad
 app = Flask(__name__)
 app.secret_key = 'admin'  # Secret key for session management
