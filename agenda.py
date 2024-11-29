@@ -462,9 +462,9 @@ def save_database(database):
         json.dump(database, file, indent=4)
 
 def sort_recursively(data):
-    """Recursively sort sections and users in JSON by their index."""
+    """Recursively sort the entire JSON structure by the 'index' key."""
     if isinstance(data, dict):
-        # Separate indexed items from non-indexed items
+        # Sort the current level if 'index' exists
         indexed_items = {k: v for k, v in data.items() if isinstance(v, dict) and 'index' in v}
         non_indexed_items = {k: v for k, v in data.items() if k not in indexed_items}
 
@@ -474,9 +474,17 @@ def sort_recursively(data):
         # Recursively sort children
         for key, value in sorted_indexed_items.items():
             sorted_indexed_items[key] = sort_recursively(value)
+        for key, value in non_indexed_items.items():
+            non_indexed_items[key] = sort_recursively(value)
 
         # Combine sorted indexed items with non-indexed items
         return {**sorted_indexed_items, **non_indexed_items}
+
+    elif isinstance(data, list):
+        # If it's a list, sort it if applicable, then recurse
+        return [sort_recursively(item) for item in data]
+
+    # Base case: return the item if it's not a dict or list
     return data
 
 
