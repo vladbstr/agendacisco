@@ -1,0 +1,86 @@
+{
+    "ATI": {
+        "veve2": {
+            "Sec 5": {
+                "index": 1
+            },
+            "SEC 4": {
+                "index": 2
+            },
+            "index": 1
+        },
+        "OFICIUL 1": {
+            "dasd": {
+                "index": 1,
+                "Utilizatori": {
+                    "un_cacacat": {
+                        "numar": "112",
+                        "index": 1
+                    }
+                }
+            },
+            "Sectia 1": {
+                "index": 2,
+                "Utilizatori": {
+                    "buhuuhu": {
+                        "numar": "222",
+                        "index": 1
+                    },
+                    "das": {
+                        "numar": "dasda",
+                        "index": 2
+                    },
+                    "dasd": {
+                        "numar": "dasdas",
+                        "index": 3
+                    },
+                    "uiuuuuuuu": {
+                        "numar": "dsad",
+                        "index": 4
+                    },
+                    "sad": {
+                        "numar": "sadasd",
+                        "index": 5
+                    },
+                    "saddasda": {
+                        "numar": "sadasd",
+                        "index": 6
+                    },
+                    "saddasdadd": {
+                        "numar": "sadasd",
+                        "index": 7
+                    },
+                    "saddasdaddss": {
+                        "numar": "sadasd",
+                        "index": 8
+                    },
+                    "dddasdas": {
+                        "numar": "sadasd",
+                        "index": 9
+                    },
+                    "asdasdasd": {
+                        "numar": "sadasd",
+                        "index": 10
+                    },
+                    "asdasdasdsadasd": {
+                        "numar": "sadasd",
+                        "index": 11
+                    },
+                    "asdasdasdsadasdasdas": {
+                        "numar": "sadasd",
+                        "index": 12
+                    }
+                }
+            },
+            "Sectia 6": {
+                "index": 3
+            },
+            "index": 2
+        },
+        "index": 1
+    },
+    "AAC": {
+        "index": 2,
+        "Utilizatori": {}
+    }
+}
