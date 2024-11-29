@@ -28,43 +28,32 @@ body {
 .management-header h1 {
     margin: 0;
     font-size: 24px;
+    
 }
+h1{
+    font-size: 24px;      /* Setează dimensiunea fontului */
+    font-weight: bold;    /* Face textul mai îngroșat */
+    color: #1a1818;          /* Setează culoarea textului */
+    margin-top: 20px;     /* Adaugă un spațiu deasupra titlului */
+    margin-bottom: 10px;  /* Adaugă un spațiu sub titlu */
+    padding: 5px 5px;
 
-.user-menu {
-    position: relative;
+
 }
-
-.user-menu img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+h2 {
+    font-size: 24px;      /* Setează dimensiunea fontului */
+    font-weight: bold;    /* Face textul mai îngroșat */
+    color: #f1ecec;          /* Setează culoarea textului */
+    margin-top: 20px;     /* Adaugă un spațiu deasupra titlului */
+    margin-bottom: 10px;  /* Adaugă un spațiu sub titlu */
 }
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-    border-radius: 5px;
-    overflow: hidden;
+p{
+    font-size: 24px;      /* Setează dimensiunea fontului */
+    font-weight: bold;    /* Face textul mai îngroșat */
+    color: #f1ecec;          /* Setează culoarea textului */
+    margin-top: 20px;     /* Adaugă un spațiu deasupra titlului */
+    margin-bottom: 10px;  /* Adaugă un spațiu sub titlu */   
 }
-
-.dropdown-content a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-    transition: background 0.3s;
-}
-
-.dropdown-content a:hover {
-    background: #f0f0f0;
-}
-
 form {
     background: rgba(255, 255, 255, 0.9);
     padding: 15px;
@@ -76,7 +65,7 @@ form {
 }
 
 form input, form button {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -110,7 +99,7 @@ ul.sortable li {
     padding: 15px;
     border-radius: 5px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribuie elementele între capetele rândului */
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: grab;
@@ -125,7 +114,7 @@ ul.sortable li a {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
-    margin-right: auto;
+    margin-right: auto; /* Asigură că linkul va sta la stânga */
     transition: color 0.3s;
 }
 
@@ -137,7 +126,7 @@ ul.sortable li button {
     background: transparent;
     border: none;
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 10px; /* Spațiu între butoane */
     cursor: pointer;
     color: #dc3545;
     transition: color 0.3s;
@@ -146,6 +135,13 @@ ul.sortable li button {
 ul.sortable li button:hover {
     color: #a71d2a;
 }
+
+/* Asigură că butoanele sunt plasate unul lângă altul */
+ul.sortable li .actions {
+    display: flex;
+    gap: 10px; /* Spațiu între butoane */
+}
+
 
 #update-btn {
     background: #28a745;
@@ -180,4 +176,58 @@ ul.sortable li button:hover {
     ul.sortable li button {
         margin-left: 0;
     }
+}
+/* Stil pentru meniul dropdown */
+.dropdown-content {
+    display: none; /* Ascuns implicit */
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    border-radius: 5px;
+    overflow: hidden;
+    min-width: 150px; /* Lățimea minimă */
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 5px 10px 15px; /* Sus, Dreapta, Jos, Stânga */    text-decoration: none;
+    font-size: 16px;
+    color: #333; /* Culoarea textului */
+    background-color: #fff; /* Fundal alb */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f44336; /* Roșu la hover */
+    color: #fff; /* Text alb la hover */
+}
+
+/* Butonul utilizator */
+.user-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0px 50px;
+    outline: none;
+    text-decoration: none;
+
+    
+}
+
+.user-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.user-icon:hover img {
+    transform: scale(1.1); /* Mică animație la hover */
+}
+
+/* Stil pentru a afișa dropdown-ul */
+.user-menu:hover .dropdown-content {
+    display: block;
 }

@@ -30,32 +30,32 @@
     </div>
 
     <!-- Breadcrumb -->
-    <p><strong>Path:</strong> {{ breadcrumb }}</p>
-    <div style="position: fixed; top: 10px; right: 10px;">
+    <p><strong>Calea curenta:</strong> {{ breadcrumb }}</p>
+    <div style="position: fixed; top: 100px; right: 10px;">
         <button style="background-color: red; color: white; font-size: 16px; padding: 10px 20px; border: none; cursor: pointer;" onclick="confirmReorganize()">
-            Reorganize JSON
+            Reorganizeaza JSON
         </button>
     </div>
 
     
     <!-- Add Section -->
-    <h2>Add Section</h2>
+    <h2>Adauga Sectiune</h2>
     <form id="add-section-form" onsubmit="addSection(event)">
-        <input type="text" id="section-name" placeholder="Section Name" required>
-        <button type="submit">Add Section</button>
+        <input type="text" id="section-name" placeholder="Nume Sectiune" required>
+        <button type="submit">Adauga Sectiune</button>
     </form>
 
     <!-- Add User -->
-    <h2>Add User</h2>
+    <h2>Adauga User</h2>
     <form id="add-user-form" onsubmit="addUser(event)">
-        <input type="text" id="user-name" placeholder="User Name" required>
-        <input type="text" id="user-number" placeholder="Phone Number" required>
-        <button type="submit">Add User</button>
+        <input type="text" id="user-name" placeholder="Nume User" required>
+        <input type="text" id="user-number" placeholder="Numar de telefon" required>
+        <button type="submit">Adauga User</button>
     </form>
 
 
     <!-- Drag and Drop for Sub-sections -->
-    <h2>Sections</h2>
+    <h2>Sectiuni</h2>
     <ul id="sub-sections" class="sortable">
         {% for name, section in sub_sections.items() %}
             <li class="draggable" data-name="{{ name | safe }}" draggable="true">
@@ -63,24 +63,32 @@
                     {{ name }}
                 </a>
                 
-                <button onclick="deleteSection('{{ name }}')">Delete</button>
-            <button onclick="modifySection('{{ name }}')">Modify</button>
+                <!-- Gruparea butoanelor într-un container -->
+                <div class="actions">
+                    <button onclick="deleteSection('{{ name }}')">Sterge</button>
+                    <button onclick="modifySection('{{ name }}')">Modifica</button>
+                </div>
             </li>
         {% endfor %}
     </ul>
     
+    
     <!-- Users -->
-    <h2>Users in {{ path.split('/')[-1] if path else 'Home' }}</h2>
+    <h2>Useri in  {{ path.split('/')[-1] if path else 'Home' }}</h2>
     <ul id="users" class="sortable">
         {% for username, details in users.items() %}
             <li class="draggable" data-name="{{ username }}" draggable="true">
                 {{ username }} - {{ details['numar'] }}
-                <button onclick="deleteUser('{{ username }}')">Delete</button>
-            <button onclick="modifyUser('{{ username }}', '{{ details[numar] }}')">Modify</button>
+                
+                <!-- Gruparea butoanelor într-un container -->
+                <div class="actions">
+                    <button onclick="deleteUser('{{ username }}')">Sterge</button>
+                    <button onclick="modifyUser('{{ username }}', '{{ details[numar] }}')">Modifica</button>
+                </div>
             </li>
-            
         {% endfor %}
     </ul>
+    
     
 
     

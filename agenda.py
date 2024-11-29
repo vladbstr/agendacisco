@@ -293,10 +293,15 @@ def returnindex():
     return redirect("management")  # sau alt URL complet
 
 
+def get_ip_from_config():
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+        return config.get("IP", "127.0.0.1")  # Întoarce IP-ul sau un IP default dacă nu este găsit
+
 @app.route('/data', methods=['GET'])
 def data():
     """Render the top-level sections as an XML."""
-    base_url = "http://10.8.120.52:5000"
+    base_url = f"http://{get_ip_from_config()}:5000"  # Folosește IP-ul din config.json
     xml_output = generate_xml_menu(database, base_url)
     return Response(xml_output, mimetype="text/xml")
 
@@ -306,7 +311,7 @@ def cisco_agenda():
     """
     Render sub-sections and users as XML based on the path.
     """
-    base_url = "http://10.8.120.52:5000"
+    base_url = f"http://{get_ip_from_config()}:5000"  # Folosește IP-ul din config.json
     path = request.args.get('path', '')  # Get the path parameter
     path_list = path.split("/") if path else []
 
@@ -319,7 +324,6 @@ def cisco_agenda():
     # Generate XML for the current section
     xml_output = generate_xml_menu(current_section, base_url, path)
     return Response(xml_output, mimetype="text/xml")
-
 
 
 def generate_xml_menu(data, base_url, path=None):
@@ -381,21 +385,21 @@ def generate_xml_menu(data, base_url, path=None):
             xml_users.append(f"<Name>{user_name}</Name>")
             xml_users.append(f"<Telephone>{user_data['numar']}</Telephone>")
             xml_users.append("</DirectoryEntry>")
-            xml_users.append("<SoftKeyItem>")
-            xml_users.append("<Name>Suna</Name>")
-            xml_users.append(f"<URL>SoftKey:Dial</URL>")
-            xml_users.append("<Position>1</Position>")
-            xml_users.append("</SoftKeyItem>")
-            xml_users.append("<SoftKeyItem>")
-            xml_users.append("<Name>Inapoi</Name>")
-            xml_users.append(f"<URL>{back_url}</URL>")
-            xml_users.append("<Position>2</Position>")
-            xml_users.append("</SoftKeyItem>")
-            xml_users.append("<SoftKeyItem>")
-            xml_users.append("<Name>Renunta</Name>")
-            xml_users.append("<URL>Init:Services</URL>")  # Comandă pentru ieșire directă
-            xml_users.append("<Position>3</Position>")
-            xml_users.append("</SoftKeyItem>")
+        xml_users.append("<SoftKeyItem>")
+        xml_users.append("<Name>Suna</Name>")
+        xml_users.append(f"<URL>SoftKey:Dial</URL>")
+        xml_users.append("<Position>1</Position>")
+        xml_users.append("</SoftKeyItem>")
+        xml_users.append("<SoftKeyItem>")
+        xml_users.append("<Name>Inapoi</Name>")
+        xml_users.append(f"<URL>{back_url}</URL>")
+        xml_users.append("<Position>2</Position>")
+        xml_users.append("</SoftKeyItem>")
+        xml_users.append("<SoftKeyItem>")
+        xml_users.append("<Name>Renunta</Name>")
+        xml_users.append("<URL>Init:Services</URL>")  # Comandă pentru ieșire directă
+        xml_users.append("<Position>3</Position>")
+        xml_users.append("</SoftKeyItem>")
         xml_users.append("</CiscoIPPhoneDirectory>")
         return "\n".join(xml_users)
     xml.append("<SoftKeyItem>")
