@@ -22,28 +22,24 @@
             "Sectia 1": {
                 "index": 2,
                 "Utilizatori": {
-                    "buhuuhu": {
-                        "numar": "222",
-                        "index": 1
-                    },
-                    "das": {
-                        "numar": "dasda",
+                    "saddasda": {
+                        "numar": "sadasd",
                         "index": 2
-                    },
-                    "dasd": {
-                        "numar": "dasdas",
-                        "index": 3
-                    },
-                    "uiuuuuuuu": {
-                        "numar": "dsad",
-                        "index": 4
                     },
                     "sad": {
                         "numar": "sadasd",
+                        "index": 3
+                    },
+                    "buhuuhu": {
+                        "numar": "222",
+                        "index": 4
+                    },
+                    "das": {
+                        "numar": "dasda",
                         "index": 5
                     },
-                    "saddasda": {
-                        "numar": "sadasd",
+                    "dasd": {
+                        "numar": "dasdas",
                         "index": 6
                     },
                     "saddasdadd": {
@@ -66,9 +62,9 @@
                         "numar": "sadasd",
                         "index": 11
                     },
-                    "asdasdasdsadasdasdas": {
-                        "numar": "sadasd",
-                        "index": 12
+                    "1111": {
+                        "numar": "dsad",
+                        "index": 1
                     }
                 }
             },

@@ -73,21 +73,97 @@
     </ul>
     
     
-    <!-- Users -->
-    <h2>Useri in  {{ path.split('/')[-1] if path else 'Home' }}</h2>
-    <ul id="users" class="sortable">
-        {% for username, details in users.items() %}
-            <li class="draggable" data-name="{{ username }}" draggable="true">
-                {{ username }} - {{ details['numar'] }}
-                
-                <!-- Gruparea butoanelor într-un container -->
-                <div class="actions">
-                    <button onclick="deleteUser('{{ username }}')">Sterge</button>
-                    <button onclick="modifyUser('{{ username }}', '{{ details[numar] }}')">Modifica</button>
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
+    <h2>Useri in {{ path.split('/')[-1] if path else 'Home' }}</h2>
+    <table id="userTable" class="user-table">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Numar</th>
+                <th>Actiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, details in users.items() %}
+            <tr class="user-row">
+                <td class="username">{{ username }}</td>
+                <td class="numar">{{ details['numar'] }}</td>
+                <td class="actions">
+                    <!-- Gruparea butoanelor într-un container -->
+                    <div class="actions">
+                        <button onclick="deleteUser('{{ username }}')">Sterge</button>
+                        <button onclick="modifyUser('{{ username }}', '{{ details['numar'] }}')">Modifica</button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- CSS pentru stilizare -->
+    <style>
+        /* Asigură-te că stilurile se aplică corect la tabel */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+    
+        .user-table th, .user-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    
+        .user-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+    
+    
+        /* Stilizare butoane */
+        .actions button {
+            padding: 6px 12px;
+            margin-right: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+    
+        .actions button:hover {
+            background-color: #f0f0f0;
+        }
+    
+        .actions button:active {
+            background-color: #ddd;
+        }
+    
+        .actions button:nth-child(1) {
+            background-color: #f44336; /* roșu pentru "Sterge" */
+            color: white;
+        }
+    
+        .actions button:nth-child(2) {
+            background-color: #4CAF50; /* verde pentru "Modifica" */
+            color: white;
+        }
+    
+        /* Stiluri pentru rânduri și coloane */
+        .username, .numar {
+            text-align: left;
+			color: white;
+			background-color: #000000;
+        }
+    
+
+    
+        /* Stiluri pentru acțiuni */
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+    
     
     
 
